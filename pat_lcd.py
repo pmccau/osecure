@@ -1,6 +1,18 @@
-import lcddriver
 import time
+from os import path
+import shutil
+import importlib.util
 
+
+def init_dependencies(submodule_path):
+    dependencies = ['lcddriver.py', 'i2c_lib.py']
+    for module in dependencies:
+        if not path.exists(module) and path.exists('{}/{}'.format(submodule_path, module)):
+            shutil.copyfile('{}/{}'.format(submodule_path, module), './')
+
+
+init_dependencies('./lcd')
+lcddriver = __import__('lcddriver.py')
 display = lcddriver.lcd()
 
 while True:
